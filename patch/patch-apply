@@ -1,0 +1,4 @@
+#!/bin/bash
+# patch-apply
+
+curl $1 | patch -p1

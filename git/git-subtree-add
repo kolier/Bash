@@ -1,0 +1,45 @@
+#!/bin/bash
+# git-subtree-add
+
+# Usage
+# 1. git-subtree-add modules/base/ctools https://github.com/drupalprojects/ctools 7.x-1.x
+# 2. git-subtree-add modules/base/ctools hubdrop/ctools 7.x-1.x
+# 3. git-subtree-add modules/base/ctools 7.x-1.x
+
+# Namespaces
+drupal='http://git.drupal.org/project'
+hubdrop='https://github.com/drupalprojects'
+drupal_rain='https://github.com/drupal-rain'
+
+# Prepare Path, URL, Branch
+path=$1
+url=''
+branch=''
+if [[ $2 != https* ]]; then
+    # Only Two Parameters
+    if [[ $2 == *.x* ]]; then
+        branch=$2
+        project=${1##*/}
+        url="$hubdrop/$project.git"
+    # Three Parameters
+    else
+        branch=$3
+        url=$2
+        if [[ $2 == hubdrop/* ]]; then
+            url="${2/hubdrop/$hubdrop}.git"
+        elif [[ $2 == drupal-rain/* ]]; then
+            url="${2/drupal-rain/$drupal_rain}.git"
+        elif [[ $2 == drupal/* ]]; then
+            url="${2/drupal/$drupal}.git"
+        fi
+    fi
+else
+    url=$2
+    branch=$3
+fi
+
+#echo "Path: $path URL: $url Branch: $branch"
+git subtree add --squash --prefix=$path $url $branch
+# Automate it sometimes
+git add .gittrees
+git commit --amend --no-edit

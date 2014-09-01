@@ -1,0 +1,4 @@
+#!/bin/bash
+# git-subtree-pull
+
+git subtree pull --squash --prefix=$1

@@ -1,0 +1,4 @@
+#!/bin/bash
+# patch-revert
+
+curl $1 | patch -p1 -R

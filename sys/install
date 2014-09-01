@@ -1,0 +1,16 @@
+#!/bin/bash
+# install
+
+
+# 1. dpkg -i .deb shortcut.
+# 2. apt-get install.
+# 3. @todo support custom package.
+
+if [[ $1 == *.deb ]]
+    dpkg -i $1
+    # Learn how to use '|' to detect if need to run this.
+    apt-get -f install
+else
+    apt-get update
+    apt-get install $1
+fi

@@ -1,0 +1,6 @@
+#!/bin/bash
+# uninstall
+
+echo 'Remove Base: apt-get remove [package]'
+echo 'Remove Config as well: apt-get remove --purge [package]'
+echo 'Auto Remove Useless dependencies: apt-get autoremove'
