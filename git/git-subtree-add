@@ -10,6 +10,7 @@
 drupal='http://git.drupal.org/project'
 hubdrop='https://github.com/drupalprojects'
 drupal_rain='https://github.com/drupal-rain'
+drupal_issue='https://github.com/drupal-issue'
 
 # Prepare Path, URL, Branch
 path=$1
@@ -29,6 +30,8 @@ if [[ $2 != https* ]]; then
             url="${2/hubdrop/$hubdrop}.git"
         elif [[ $2 == drupal-rain/* ]]; then
             url="${2/drupal-rain/$drupal_rain}.git"
+        elif [[ $2 == drupal-issue/* ]]; then
+            url="${2/drupal-issue/$drupal_issue}.git"
         elif [[ $2 == drupal/* ]]; then
             url="${2/drupal/$drupal}.git"
         fi
@@ -42,4 +45,5 @@ fi
 git subtree add --squash --prefix=$path $url $branch
 # Automate it sometimes
 git add .gittrees
-git commit --amend --no-edit
+# git commit --amend --no-edit
+git commit --amend -m "New: Add $path."
