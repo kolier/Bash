@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Used to assign version number to projects managed by git-subtree.
+
+function addVersion {
+    name=''
+    name=/$1
+    file=${name##\/*\/}.info
+    # Only add if there is no version information
+    check=$(grep version $file)
+    if [[ -z $check ]]; then
+        echo "version = ${2}" >> $file
+    fi
+}
+
+declare -a Projects=($(git config -f .gittrees -l | grep subtree | grep path= | grep -o '=.*' | grep -o '[^=].*'))
+declare -a Branches=($(git config -f .gittrees -l | grep subtree | grep branch= | grep -o '=.*' | grep -o '[^=].*'))
+
+declare -i i=0
+for Project in ${Projects[@]}; do
+    (cd ./${Project} && addVersion $Project ${Branches[$i]})
+    let i=i+1
+done

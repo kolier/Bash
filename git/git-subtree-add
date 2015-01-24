@@ -3,7 +3,12 @@
 
 # Usage
 # 1. git-subtree-add modules/base/ctools https://github.com/drupalprojects/ctools 7.x-1.x
-# 2. git-subtree-add modules/base/ctools hubdrop/ctools 7.x-1.x
+# 2.
+#    a. git-subtree-add modules/base/ctools drupal/ctools 7.x-1.x
+#    b. git-subtree-add modules/base/ctools hubdrop/ctools 7.x-1.x
+#    c. git-subtree-add modules/base/ctools drupal-rain/ctools 7.x-1.x
+#    d. git-subtree-add modules/base/ctools drupal-issue/ctools 7.x-1.x
+#    e. git-subtree-add modules/base/ctools drupal-fork/ctools 7.x-1.x
 # 3. git-subtree-add modules/base/ctools 7.x-1.x
 
 # Namespaces
@@ -11,6 +16,7 @@ drupal='http://git.drupal.org/project'
 hubdrop='https://github.com/drupalprojects'
 drupal_rain='https://github.com/drupal-rain'
 drupal_issue='https://github.com/drupal-issue'
+drupal_fork='https://github.com/drupal-fork'
 
 # Prepare Path, URL, Branch
 path=$1
@@ -32,6 +38,8 @@ if [[ $2 != https* ]]; then
             url="${2/drupal-rain/$drupal_rain}.git"
         elif [[ $2 == drupal-issue/* ]]; then
             url="${2/drupal-issue/$drupal_issue}.git"
+        elif [[ $2 == drupal-fork/* ]]; then
+            url="${2/drupal-fork/$drupal_fork}.git"
         elif [[ $2 == drupal/* ]]; then
             url="${2/drupal/$drupal}.git"
         fi

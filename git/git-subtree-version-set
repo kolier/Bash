@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function addVersion {
+    # Only add if there is no version information
+    check=$(grep version $1)
+    if [[ -z $check ]]; then
+        echo "version = $2" >> $1
+    fi
+
+}
+
+# Set a project version by .gittrees file
+
+declare -a Projects=($(git config -f .gittrees -l | grep subtree | grep path= | grep -o '=.*' | grep -o '[^=].*'))
+declare -a Branches=($(git config -f .gittrees -l | grep subtree | grep branch= | grep -o '=.*' | grep -o '[^=].*'))
+
+echo Try to find math for \"$1\"...
+
+Name=''
+declare -i i=0
+for Project in ${Projects[@]}; do
+    Name=${Project}
+    # Matched
+    if [[ $Name == $1 ]]; then
+        echo Match found.
+        declare -a Files=($(find ./$1 -name '*.info'))
+        for File in ${Files[@]}; do
+            addVersion $File ${Branches[$i]}
+        done
+    fi
+    let i=i+1
+done
