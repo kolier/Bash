@@ -1,0 +1,11 @@
+#!/bin/bash
+
+File=$1
+
+if [[ ! -f $File ]]; then
+  echo $File is not a correct file name.
+fi
+
+declare -a Info_files=($(cd ./$File && find -name "*.info"))
+
+echo ${Info_files[@]}

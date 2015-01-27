@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Used to assign version number to projects managed by git-subtree.
+
+# @todo set sub modules as well.
+
+# Try to get .info version
+#function getVersion {}
+
+function addVersion {
+    declare -a Info_files=($(find -name "*.info"))
+    for Info_file in ${Info_files[@]}; do
+        # Only add if there is no version information
+        # @issue Need to avoid contains 'version' text, need to correctly get the version
+        check=$(grep version ${Info_file})
+        if [[ -z $check ]]; then
+            echo Configuring $Info_file
+            echo "version = ${1}" >> $Info_file
+        fi
+    done
+}
+
+declare -a Projects=($(git config -f .gittrees -l | grep subtree | grep path= | grep -o '=.*' | grep -o '[^=].*'))
+declare -a Branches=($(git config -f .gittrees -l | grep subtree | grep branch= | grep -o '=.*' | grep -o '[^=].*'))
+
+declare -i i=0
+for Project in ${Projects[@]}; do
+    (cd ./${Project} && addVersion ${Branches[$i]})
+    let i=i+1
+done
